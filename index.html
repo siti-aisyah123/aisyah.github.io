@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tanaman Bermanfaat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #e6f2e6;
+      padding: 30px;
+    }
+    h1 {
+      color: #2e7d32;
+    }
+    #image {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin: 20px auto;
+    }
+    .options button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #a5d6a7;
+      color: #1b5e20;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .options button:hover {
+      background-color: #81c784;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌿Tanaman Berdasarkan Manfaatnya</h1>
+  <p id="question">Memuat pertanyaan...</p>
+  <img id="image" src="" alt="Gambar Tanaman" />
+  <div class="options" id="options"></div>
+  <p class="result" id="result"></p>
+  <button onclick="nextQuestion()">Soal Berikutnya</button>
+
+  <script>
+    const soal = [
+      {
+        deskripsi: "Bermanfaat untuk menyembuhkan luka dan melembabkan kulit.",
+        pilihan: ["Lidah Buaya", "Daun Mint", "Jeruk Purut"],
+        jawaban: "Lidah Buaya",
+        gambar: "LidahBuaya.jpeg"
+      },
+      {
+        deskripsi: "Sering dipakai sebagai bumbu masak, aromanya khas dan segar.",
+        pilihan: ["Pandan Wangi", "Daun Mint", "Jeruk Purut"],
+        jawaban: "Jeruk Purut",
+        gambar: "JerukPurut.jpeg"
+      },
+      {
+        deskripsi: "Aromanya harum, sering digunakan dalam masakan dan minuman tradisional.",
+        pilihan: ["Daun Mint", "Pandan Wangi", "Daun Dewa"],
+        jawaban: "Pandan Wangi",
+        gambar: "Pandan wangi.jpeg"
+      },
+      {
+        deskripsi: "Bunga ini kaya akan antioksidan dan sering dijadikan teh herbal. Warnanya merah menyala.",
+        pilihan: ["Bunga Rosella", "Daun Binohang", "Buah Mengkudu"],
+        jawaban: "Bunga Rosella",
+        gambar: "Bunga rosella.jpeg"
+      },
+      {
+        deskripsi: "Biasa digunakan dalam pengobatan tradisional untuk demam dan nyeri tubuh.",
+        pilihan: ["Daun Binohang", "Daun Mint", "Pandan Wangi"],
+        jawaban: "Daun Binohang",
+        gambar: "Daun Binohang.jpeg"
+      },
+      {
+        deskripsi: "Dipercaya dapat melancarkan peredaran darah dan mengatasi tekanan darah tinggi.",
+        pilihan: ["Daun Dewa", "Daun Kemangi", "Sirih Gading"],
+        jawaban: "Daun Dewa",
+        gambar: "Daun Dewa.jpeg"
+      },
+      {
+        deskripsi: "Sering dipakai untuk lalapan, aromanya khas dan menyegarkan.",
+        pilihan: ["Daun Kemangi", "Daun Mint", "Lidah Buaya"],
+        jawaban: "Daun Kemangi",
+        gambar: "Daun Kemangi.jpeg"
+      },
+      {
+        deskripsi: "Digunakan untuk meredakan mual dan bau napas segar.",
+        pilihan: ["Daun Mint", "Daun Kemangi", "Sirih Gading"],
+        jawaban: "Daun Mint",
+        gambar: "Daun Mint.jpeg"
+      },
+      {
+        deskripsi: "Tanaman hias merambat, bisa menyaring udara dan memperindah ruangan.",
+        pilihan: ["Sirih Gading", "Lidah Mertua", "Daun Mint"],
+        jawaban: "Sirih Gading",
+        gambar: "Sirih Gading.jpeg"
+      },
+      {
+        deskripsi: "Buahnya berbintik, baunya menyengat, sering digunakan sebagai obat alami.",
+        pilihan: ["Buah Mengkudu", "Bunga Rosella", "Jeruk Purut"],
+        jawaban: "Buah Mengkudu",
+        gambar: "Buah Mengkudu.jpeg"
+      }
+    ];
+
+    let index = 0;
+
+    function tampilkanSoal() {
+      const q = soal[index];
+      document.getElementById("question").textContent = q.deskripsi;
+      document.getElementById("image").src = q.gambar;
+      const opsi = document.getElementById("options");
+      opsi.innerHTML = "";
+      document.getElementById("result").textContent = "";
+
+      q.pilihan.forEach(jawaban => {
+        const btn = document.createElement("button");
+        btn.textContent = jawaban;
+        btn.onclick = () => cekJawaban(jawaban);
+        opsi.appendChild(btn);
+      });
+    }
+
+    function cekJawaban(pilihan) {
+      const benar = soal[index].jawaban;
+      const hasil = document.getElementById("result");
+      if (pilihan === benar) {
+        hasil.textContent = "✅ Benar!";
+        hasil.style.color = "green";
+      } else {
+        hasil.textContent = "❌ Salah. Coba lagi.";
+        hasil.style.color = "red";
+      }
+    }
+
+    function nextQuestion() {
+      index = (index + 1) % soal.length;
+      tampilkanSoal();
+    }
+
+    window.onload = tampilkanSoal;
+  </script>
+</body>
+</html>
