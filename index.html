@@ -47,8 +47,13 @@
   <div class="options" id="options"></div>
   <p class="result" id="result"></p>
   <button onclick="nextQuestion()">Soal Berikutnya</button>
+  <p id="percobaan"></p> <!-- ✅ Dipindah ke bawah tombol -->
 
   <script>
+    let index = 0;
+    let jumlahPercobaan = 0;
+    let sudahDijawab = false;
+
     const soal = [
       {
         deskripsi: "Bermanfaat untuk menyembuhkan luka dan melembabkan kulit.",
@@ -112,8 +117,6 @@
       }
     ];
 
-    let index = 0;
-
     function tampilkanSoal() {
       const q = soal[index];
       document.getElementById("question").textContent = q.deskripsi;
@@ -121,6 +124,9 @@
       const opsi = document.getElementById("options");
       opsi.innerHTML = "";
       document.getElementById("result").textContent = "";
+      document.getElementById("percobaan").textContent = "";
+      sudahDijawab = false;
+      jumlahPercobaan = 0;
 
       q.pilihan.forEach(jawaban => {
         const btn = document.createElement("button");
@@ -131,14 +137,21 @@
     }
 
     function cekJawaban(pilihan) {
+      if (sudahDijawab) return;
+      jumlahPercobaan++;
       const benar = soal[index].jawaban;
       const hasil = document.getElementById("result");
+      const percobaanTeks = document.getElementById("percobaan");
+
       if (pilihan === benar) {
         hasil.textContent = "✅ Benar!";
         hasil.style.color = "green";
+        sudahDijawab = true;
+        percobaanTeks.textContent = `Anda benar di percobaan ke-${jumlahPercobaan}`;
       } else {
         hasil.textContent = "❌ Salah. Coba lagi.";
         hasil.style.color = "red";
+        percobaanTeks.textContent = `Percobaan ke-${jumlahPercobaan}`;
       }
     }
 
