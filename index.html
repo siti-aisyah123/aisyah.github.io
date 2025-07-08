@@ -3,164 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tanaman Bermanfaat</title>
+  <title>Wisata Alam Impian</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      background-color: #f0f0f0;
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      min-height: 100vh;
       text-align: center;
-      background-color: #e6f2e6;
-      padding: 30px;
+      animation: fadeIn 1s ease-in-out;
     }
-    h1 {
-      color: #2e7d32;
+
+    #welcome {
+      background: url('Gambar.jpg') center/cover no-repeat;
+      color: white;
+      justify-content: center;
+      position: relative;
     }
-    #image {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px;
-      margin: 20px auto;
+
+    /* Animasi dramatis untuk judul */
+    .judul-animasi {
+      animation: masukBus 1.5s ease-out;
     }
-    .options button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 16px;
+
+    @keyframes masukBus {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(-80px);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(1.2) translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .button {
+      padding: 14px 28px;
+      font-size: 18px;
       border: none;
-      background-color: #a5d6a7;
-      color: #1b5e20;
-      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #2e3a59;
+      border-radius: 10px;
       cursor: pointer;
-    }
-    .options button:hover {
-      background-color: #81c784;
-    }
-    .result {
-      margin-top: 20px;
       font-weight: bold;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .button:hover {
+      background-color: #fff;
+      transform: scale(1.05);
+    }
+
+    .foto-aisyah {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 25px;
+      border: 3px solid white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    #destination {
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    .nama-wisata {
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #2e7d32;
+      margin-bottom: 15px;
+    }
+
+    .deskripsi-wisata {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: 0 auto;
+      color: #444;
+      line-height: 1.6;
+      padding: 0 15px;
+    }
+
+    #gambar-wisata {
+      width: 90%;
+      max-width: 800px;
+      border-radius: 12px;
+      margin: 20px 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <h1>🌿Tanaman Berdasarkan Manfaatnya</h1>
-  <p id="question">Memuat pertanyaan...</p>
-  <img id="image" src="" alt="Gambar Tanaman" />
-  <div class="options" id="options"></div>
-  <p class="result" id="result"></p>
-  <button onclick="nextQuestion()">Soal Berikutnya</button>
-  <p id="percobaan"></p> <!-- ✅ Dipindah ke bawah tombol -->
+  <!-- Welcome Page -->
+  <div class="screen" id="welcome">
+    <h1 class="judul-animasi">"My Dream, My Journey"</h1>
+    <p style="color: black;">Jelajahi destinasi impianmu dan wujudkan mimpi mu menjelajahi Nusantara</p>
+    <button class="button" onclick="mulai()">Explore Now</button>
+    <img src="Cuplikan layar 2025-07-08 162555.png" alt="Foto Aisyah" class="foto-aisyah" />
+  </div>
+
+  <!-- Destination Page -->
+  <div class="screen" id="destination" style="display: none;">
+    <div class="nama-wisata" id="nama-wisata"></div>
+    <img id="gambar-wisata" src="" alt="Gambar Wisata">
+    <div class="deskripsi-wisata" id="deskripsi"></div>
+    <button class="button" onclick="nextDestinasi()">Lanjut ke Destinasi Berikutnya</button>
+  </div>
 
   <script>
     let index = 0;
-    let jumlahPercobaan = 0;
-    let sudahDijawab = false;
 
-    const soal = [
+    const wisata = [
       {
-        deskripsi: "Bermanfaat untuk menyembuhkan luka dan melembabkan kulit.",
-        pilihan: ["Lidah Buaya", "Daun Mint", "Jeruk Purut"],
-        jawaban: "Lidah Buaya",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Lidah%20Buaya.jpeg?raw=true"
+        nama: "Kota Tua, Surabaya",
+        deskripsi: "Kota Tua Surabaya merupakan kawasan bersejarah yang menyimpan jejak masa kolonial Belanda sejak abad ke-18. Di sepanjang jalan, terdapat bangunan-bangunan tua bergaya arsitektur Eropa klasik seperti Art Deco dan Indische Empire yang khas.",
+        gambar: "Kota Tua, Surabaya.jpeg"
       },
       {
-        deskripsi: "Sering dipakai sebagai bumbu masak, aromanya khas dan segar.",
-        pilihan: ["Pandan Wangi", "Daun Mint", "Jeruk Purut"],
-        jawaban: "Jeruk Purut",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Jeruk%20Purut.jpeg?raw=true"
+        nama: "Malioboro, Yogyakarta",
+        deskripsi: "Malioboro adalah salah satu ikon pariwisata paling terkenal di Yogyakarta, Kawasan ini telah ada sejak masa kolonial Belanda dan menjadi pusat aktivitas ekonomi, sosial, dan budaya masyarakat Jogja.",
+        gambar: "Malioboro, Yogyakarta.jpeg"
       },
       {
-        deskripsi: "Aromanya harum, sering digunakan dalam masakan dan minuman tradisional.",
-        pilihan: ["Daun Mint", "Pandan Wangi", "Daun Dewa"],
-        jawaban: "Pandan Wangi",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Pandan%20wangi.jpeg?raw=true"
+        nama: "Dusun Bambu Lembang, Bandung",
+        deskripsi: "Dusun Bambu adalah kawasan wisata eco-tourism yang terletak di kaki Gunung Burangrang, Lembang, Bandung.empat ini menggabungkan keindahan alam pegunungan dengan konsep rekreasi keluarga yang ramah lingkungan. Salah satu daya tarik utamanya adalah arsitektur unik berbahan bambu, termasuk restoran berbentuk sarang burung dan gazebo apung di tepi danau.",
+        gambar: "Dusun Bambu Lembang, Bandung.jpeg"
       },
       {
-        deskripsi: "Bunga ini kaya akan antioksidan dan sering dijadikan teh herbal. Warnanya merah menyala.",
-        pilihan: ["Bunga Rosella", "Daun Binohang", "Buah Mengkudu"],
-        jawaban: "Bunga Rosella",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/bunga%20rosella.jpeg?raw=true"
+        nama: "Tegallalang Rice Terrace, Bali",
+        deskripsi:"Tegallalang Rice Terrace adalah kawasan sawah berundak yang terletak di Ubud, Bali.Tempat ini terkenal di kalangan wisatawan karena keindahan lanskapnya yang memukau dan sistem irigasi tradisional Bali yang disebut Subak. Tegallalang bukan hanya tempat untuk berfoto, tetapi juga lokasi yang cocok untuk menikmati ketenangan alam, berjalan menyusuri pematang sawah, atau sekadar duduk di kafe sambil melihat matahari terbit di balik hamparan padi.",
+        gambar: "Tegallalang Rice Terraces,  Bali.jpeg"
       },
       {
-        deskripsi: "Biasa digunakan dalam pengobatan tradisional untuk demam dan nyeri tubuh.",
-        pilihan: ["Daun Binohang", "Daun Mint", "Pandan Wangi"],
-        jawaban: "Daun Binohang",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Daun%20Binohang.jpeg?raw=true"
+        nama: "Kebun Raya, Bogor",
+        deskripsi:"Kebun Raya Bogor adalah kebun botani terbesar dan tertua di Indonesia yang terletak di jantung Kota Bogor, Jawa Barat. Didirikan pada tahun 1817, kebun ini memiliki luas sekitar 87 hektar dan menjadi rumah bagi lebih dari 15.000 spesies tumbuhan dari seluruh dunia. Salah satu daya tarik utama Kebun Raya Bogor adalah koleksi flora tropis yang luar biasa, termasuk bunga langka seperti bunga bangkai (Amorphophallus titanum), berbagai jenis anggrek, palem, kaktus, hingga tanaman air seperti teratai raksasa.",
+        gambar: "Kebun Raya, Bogor.jpeg"
       },
       {
-        deskripsi: "Dipercaya dapat melancarkan peredaran darah dan mengatasi tekanan darah tinggi.",
-        pilihan: ["Daun Dewa", "Daun Kemangi", "Sirih Gading"],
-        jawaban: "Daun Dewa",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Daun%20Dewa.jpeg?raw=true"
-      },
-      {
-        deskripsi: "Sering dipakai untuk lalapan, aromanya khas dan menyegarkan.",
-        pilihan: ["Daun Kemangi", "Daun Mint", "Lidah Buaya"],
-        jawaban: "Daun Kemangi",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Daun%20Kemangi.jpeg?raw=true"
-      },
-      {
-        deskripsi: "Digunakan untuk meredakan mual dan bau napas segar.",
-        pilihan: ["Daun Mint", "Daun Kemangi", "Sirih Gading"],
-        jawaban: "Daun Mint",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Daun%20Mint.jpeg?raw=true"
-      },
-      {
-        deskripsi: "Tanaman hias merambat, bisa menyaring udara dan memperindah ruangan.",
-        pilihan: ["Sirih Gading", "Lidah Mertua", "Daun Mint"],
-        jawaban: "Sirih Gading",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/sirih%20gading.jpeg?raw=true"
-      },
-      {
-        deskripsi: "Buahnya berbintik, baunya menyengat, sering digunakan sebagai obat alami.",
-        pilihan: ["Buah Mengkudu", "Bunga Rosella", "Jeruk Purut"],
-        jawaban: "Buah Mengkudu",
-        gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Buah%20Mengkudu.jpeg?raw=true"
+        nama: "Masjid Istiqlal",
+        deskripsi: "Masjid Istiqlal merupakan masjid nasional Republik Indonesia yang terletak di jantung ibu kota, Jakarta Pusat, tepatnya di sebelah timur Lapangan Merdeka dan berseberangan dengan Gereja Katedral Jakarta. Diresmikan pada tanggal 22 Februari 1978 oleh Presiden Soeharto, masjid ini dibangun sebagai simbol kemerdekaan Indonesia—nama masjid istiqlal sendiri berarti kemerdekaan dalam bahasa Arab. Dengan arsitektur megah bergaya modern minimalis yang dirancang oleh arsitek Kristen bernama Frederich Silaban, masjid ini mencerminkan toleransi antarumat beragama di Indonesia.",
+        gambar: "Istiqlal Mosque of Indonesia.jpeg"
       }
+      
     ];
 
-    function tampilkanSoal() {
-      const q = soal[index];
-      document.getElementById("question").textContent = q.deskripsi;
-      document.getElementById("image").src = q.gambar;
-      const opsi = document.getElementById("options");
-      opsi.innerHTML = "";
-      document.getElementById("result").textContent = "";
-      document.getElementById("percobaan").textContent = "";
-      sudahDijawab = false;
-      jumlahPercobaan = 0;
-
-      q.pilihan.forEach(jawaban => {
-        const btn = document.createElement("button");
-        btn.textContent = jawaban;
-        btn.onclick = () => cekJawaban(jawaban);
-        opsi.appendChild(btn);
-      });
+    function mulai() {
+      document.getElementById("welcome").style.display = "none";
+      document.getElementById("destination").style.display = "flex";
+      tampilkanDestinasi();
     }
 
-    function cekJawaban(pilihan) {
-      if (sudahDijawab) return;
-      jumlahPercobaan++;
-      const benar = soal[index].jawaban;
-      const hasil = document.getElementById("result");
-      const percobaanTeks = document.getElementById("percobaan");
-
-      if (pilihan === benar) {
-        hasil.textContent = "✅ Benar!";
-        hasil.style.color = "green";
-        sudahDijawab = true;
-        percobaanTeks.textContent = `Anda benar di percobaan ke-${jumlahPercobaan}`;
-      } else {
-        hasil.textContent = "❌ Salah. Coba lagi.";
-        hasil.style.color = "red";
-        percobaanTeks.textContent = `Percobaan ke-${jumlahPercobaan}`;
-      }
+    function tampilkanDestinasi() {
+      const tempat = wisata[index];
+      document.getElementById("nama-wisata").textContent = tempat.nama;
+      document.getElementById("deskripsi").textContent = tempat.deskripsi;
+      document.getElementById("gambar-wisata").src = tempat.gambar;
     }
 
-    function nextQuestion() {
-      index = (index + 1) % soal.length;
-      tampilkanSoal();
+    function nextDestinasi() {
+      index = (index + 1) % wisata.length;
+      tampilkanDestinasi();
     }
-
-    window.onload = tampilkanSoal;
   </script>
 </body>
 </html>
