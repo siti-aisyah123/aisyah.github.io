@@ -33,6 +33,7 @@
       justify-content: center;
       position: relative;
     }
+
     .judul-animasi {
       animation: masukBus 1.5s ease-out;
     }
@@ -107,6 +108,8 @@
       border-radius: 12px;
       margin: 20px 0;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
     }
 
     @keyframes fadeIn {
@@ -122,6 +125,7 @@
     <button class="button" onclick="mulai()">Explore Now</button>
     <img src="Cuplikan layar 2025-07-08 162555.png" alt="Foto Aisyah" class="foto-aisyah" />
   </div>
+
   <div class="screen" id="destination" style="display: none;">
     <div class="nama-wisata" id="nama-wisata"></div>
     <img id="gambar-wisata" src="" alt="Gambar Wisata">
@@ -131,40 +135,45 @@
 
   <script>
     let index = 0;
-
     const wisata = [
       {
         nama: "Kota Tua, Surabaya",
-        deskripsi: "Kota Tua Surabaya merupakan kawasan bersejarah yang menyimpan jejak masa kolonial Belanda sejak abad ke-18. Di sepanjang jalan, terdapat bangunan-bangunan tua bergaya arsitektur Eropa klasik seperti Art Deco dan Indische Empire yang khas.",
+        deskripsi: "Kota Tua Surabaya merupakan kawasan bersejarah  yang menyimpan jejak masa kolonial Belanda sejak abad ke-18. Di sepanjang jalan, terdapat bangunan-bangunan tua bergaya arsitektur Eropa klasik seperti Art Deco dan Indische Empire yang khas.",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Kota%20Tua,%20Surabaya.jpeg?raw=true"
       },
       {
         nama: "Malioboro, Yogyakarta",
-        deskripsi: "Malioboro adalah salah satu ikon pariwisata paling terkenal di Yogyakarta, Kawasan ini telah ada sejak masa kolonial Belanda dan menjadi pusat aktivitas ekonomi, sosial, dan budaya masyarakat Jogja.",
+        deskripsi: "Malioboro adalah salah satu ikon pariwisata paling terkenal di Yogyakarta, Kawasan ini telah ada sejak masa kolonial Belanda dan menjadi pusat aktivitas ekonomi, sosial, dan budaya masyarakat Jogja",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Malioboro,%20Yogyakarta.jpeg?raw=true"
       },
       {
-        nama: "Dusun Bambu Lembang, Bandung",
+        nama: "Dusun Bambu, Bandung",
         deskripsi: "Dusun Bambu adalah kawasan wisata eco-tourism yang terletak di kaki Gunung Burangrang, Lembang, Bandung.empat ini menggabungkan keindahan alam pegunungan dengan konsep rekreasi keluarga yang ramah lingkungan. Salah satu daya tarik utamanya adalah arsitektur unik berbahan bambu, termasuk restoran berbentuk sarang burung dan gazebo apung di tepi danau.",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Dusun%20Bambu%20Lembang,%20Bandung.jpeg?raw=true"
       },
       {
         nama: "Tegallalang Rice Terrace, Bali",
-        deskripsi:"Tegallalang Rice Terrace adalah kawasan sawah berundak yang terletak di Ubud, Bali.Tempat ini terkenal di kalangan wisatawan karena keindahan lanskapnya yang memukau dan sistem irigasi tradisional Bali yang disebut Subak. Tegallalang bukan hanya tempat untuk berfoto, tetapi juga lokasi yang cocok untuk menikmati ketenangan alam, berjalan menyusuri pematang sawah, atau sekadar duduk di kafe sambil melihat matahari terbit di balik hamparan padi.",
+        deskripsi: "Tegallalang Rice Terrace adalah kawasan sawah berundak yang terletak di Ubud, Bali.Tempat ini terkenal di kalangan wisatawan karena keindahan lanskapnya yang memukau dan sistem irigasi tradisional Bali yang disebut Subak. Tegallalang bukan hanya tempat untuk berfoto, tetapi juga lokasi yang cocok untuk menikmati ketenangan alam, berjalan menyusuri pematang sawah, atau sekadar duduk di kafe sambil melihat matahari terbit di balik hamparan padi.",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Tegallalang%20Rice%20Terraces,%20%20Bali.jpeg?raw=true"
       },
       {
         nama: "Kebun Raya, Bogor",
-        deskripsi:"Kebun Raya Bogor adalah kebun botani terbesar dan tertua di Indonesia yang terletak di jantung Kota Bogor, Jawa Barat. Didirikan pada tahun 1817, kebun ini memiliki luas sekitar 87 hektar dan menjadi rumah bagi lebih dari 15.000 spesies tumbuhan dari seluruh dunia. Salah satu daya tarik utama Kebun Raya Bogor adalah koleksi flora tropis yang luar biasa, termasuk bunga langka seperti bunga bangkai (Amorphophallus titanum), berbagai jenis anggrek, palem, kaktus, hingga tanaman air seperti teratai raksasa.",
+        deskripsi: "Kebun Raya Bogor adalah kebun botani terbesar dan tertua di Indonesia yang terletak di jantung Kota Bogor, Jawa Barat. Didirikan pada tahun 1817, kebun ini memiliki luas sekitar 87 hektar dan menjadi rumah bagi lebih dari 15.000 spesies tumbuhan dari seluruh dunia. Salah satu daya tarik utama Kebun Raya Bogor adalah koleksi flora tropis yang luar biasa, termasuk bunga langka seperti bunga bangkai (Amorphophallus titanum), berbagai jenis anggrek, palem, kaktus, hingga tanaman air seperti teratai raksasa.",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Kebun%20Raya,%20Bogor.jpeg?raw=true"
       },
       {
         nama: "Masjid Istiqlal",
-        deskripsi: "Masjid Istiqlal merupakan masjid nasional Republik Indonesia yang terletak di jantung ibu kota, Jakarta Pusat, tepatnya di sebelah timur Lapangan Merdeka dan berseberangan dengan Gereja Katedral Jakarta. Diresmikan pada tanggal 22 Februari 1978 oleh Presiden Soeharto, masjid ini dibangun sebagai simbol kemerdekaan Indonesia—nama masjid istiqlal sendiri berarti kemerdekaan dalam bahasa Arab. Dengan arsitektur megah bergaya modern minimalis yang dirancang oleh arsitek Kristen bernama Frederich Silaban, masjid ini mencerminkan toleransi antarumat beragama di Indonesia.",
+        deskripsi: "Masjid Istiqlal di Jakarta adalah masjid nasional Indonesia yang terletak di jantung ibu kota, Jakarta Pusat, tepatnya di sebelah timur Lapangan Merdeka dan berseberangan dengan Gereja Katedral Jakarta. Diresmikan pada tanggal 22 Februari 1978 oleh Presiden Soeharto, masjid ini dibangun sebagai simbol kemerdekaan Indonesia—nama masjid istiqlal sendiri berarti kemerdekaan dalam bahasa Arab. Dengan arsitektur megah bergaya modern minimalis yang dirancang oleh arsitek Kristen bernama Frederich Silaban, masjid ini mencerminkan toleransi antarumat beragama di Indonesia.",
         gambar: "https://github.com/siti-aisyah123/aisyah.github.io/blob/main/Istiqlal%20Mosque%20of%20Indonesia.jpeg?raw=true"
       }
-      
     ];
+
+    const preloadedImages = {};
+    wisata.forEach(w => {
+      const img = new Image();
+      img.src = w.gambar;
+      preloadedImages[w.gambar] = img;
+    });
 
     function mulai() {
       document.getElementById("welcome").style.display = "none";
@@ -174,9 +183,19 @@
 
     function tampilkanDestinasi() {
       const tempat = wisata[index];
-      document.getElementById("nama-wisata").textContent = tempat.nama;
-      document.getElementById("deskripsi").textContent = tempat.deskripsi;
-      document.getElementById("gambar-wisata").src = tempat.gambar;
+      const img = document.getElementById("gambar-wisata");
+      const nama = document.getElementById("nama-wisata");
+      const deskripsi = document.getElementById("deskripsi");
+
+      img.style.opacity = 0;
+      img.src = tempat.gambar;
+
+      img.onload = () => {
+        img.style.opacity = 1;
+      };
+
+      nama.textContent = tempat.nama;
+      deskripsi.textContent = tempat.deskripsi;
     }
 
     function nextDestinasi() {
